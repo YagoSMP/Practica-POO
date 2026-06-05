@@ -31,6 +31,7 @@ public class NearTrainNetworkDemo {
             
             System.out.println("Se ha detectado el evento: [" + option + "]");
             
+            /*OPCIONES*/
             switch (option) {
                 case 'A' -> kiosk.setImage("./config/TrainNetwork.png");
                 case 'B' -> kiosk.setMode(1);
