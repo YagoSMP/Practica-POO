@@ -27,7 +27,7 @@ public class NearTrainNetworkDemo {
         kiosk.setOption('E', null);
         kiosk.setOption('F', "Pulsame para volver al modo de pocos botones");
         while (true) {
-            char option = kiosk.waitEvent(30);
+            char option = kiosk.waitEvent(30); 
             
             System.out.println("Se ha detectado el evento: [" + option + "]");
             
