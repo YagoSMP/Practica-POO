@@ -19,6 +19,13 @@ public class NearTrainNetworkDemo {
     public static void main(String[] args) {
         UrjcBankServer bank = new UrjcBankServer();
         SelfOrderKiosk kiosk = new SelfOrderKiosk();
+        TrainNetwork tn = new TrainNetwork("config/stations.csv");
+        TrainStation[] ts = tn.getStationArray();
+        
+        for(TrainStation station: ts) {
+            System.out.println(station);
+        }
+        
         kiosk.setTitle("Venta de tickets de Cercanías");
         kiosk.setDescription("Vaya texto largo que estoy poniendo aquí\nAdemás, puedo poner retornos de carro.\n\nY más cosas.");
         kiosk.setOption('A', "Pulsame para dibujar una imagen");
