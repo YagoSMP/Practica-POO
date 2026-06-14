@@ -28,12 +28,15 @@ public class TicketDispenserManager {
         context.setTranslator(translatorManager.getCurrentTranslator());
         
         // Bucle principal
-        Screen currentScreen = new WelcomeScreen(kiosk);
+        Screen currentScreen = new WelcomeScreen(kiosk, translatorManager);
         
         while(true) {
-            // Vaciamos el contexto con cada iteracion
-            context.setOrigin(null);
-            context.setDestination(null);
+            if(currentScreen == null) {
+                currentScreen = new WelcomeScreen(kiosk, translatorManager);
+                // Vaciamos el contexto con cada iteracion
+                context.setOrigin(null);
+                context.setDestination(null);
+            }
             
             // show() pausa la ejecucion hasta que el usuario hace algo,
             // luego nos devuelve la siguiente pantalla a la que hay que ir

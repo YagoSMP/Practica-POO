@@ -67,6 +67,6 @@ public class OperationContext {
     public String getDescription() {
         String o = (origin != null) ? origin.getName(): "No seleccionado";
         String d = (destination != null) ? destination.getName(): "No seleccionado";
-        return "Origen: " + o + "\nDestino: " + d + "\nPrecio: " + price + "€";
+        return "Origen: " + o + "\nDestino: " + d + "\nPrecio: " + price + " euros";
     }
 }
