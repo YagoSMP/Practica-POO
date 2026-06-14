@@ -15,6 +15,7 @@ public class OperationContext {
     private TrainStation destination;
     private BigDecimal price;
     private TrainNetwork trainNetwork;
+    private Translator translator;
     
     // CONSTRUCTOR
     public OperationContext(TrainNetwork trainNetwork) {
@@ -43,6 +44,14 @@ public class OperationContext {
 
     public TrainNetwork getTrainNetwork() {
         return trainNetwork;
+    }
+
+    public Translator getTranslator() {
+        return translator;
+    }
+
+    public void setTranslator(Translator translator) {
+        this.translator = translator;
     }
 
     public BigDecimal getPrice() {
