@@ -57,14 +57,7 @@ public class StationSelectionScreen extends CarruselScreen {
                         context.setDestination(estacionElegida);
                         
                         // FIN DE COMPRA
-                        // Imprimir ticket por pantalla
-                        System.out.println("\n---TICKET GENERADO---");
-                        System.out.println(context.getDescription());
-                        System.out.println("---------------------\n");
-                        
-                        //Luego llamamos a PaymentScreen
-                        // Devolvemos null para que el bucle se reinicie
-                        return null;
+                        return new PaymentScreen(kiosk);
                     }
                 }
             }
