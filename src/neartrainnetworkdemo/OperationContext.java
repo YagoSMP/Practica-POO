@@ -72,8 +72,12 @@ public class OperationContext {
     
     // Resumen billete
     public String getDescription() {
-        String o = (origin != null) ? origin.getName(): "No seleccionado";
-        String d = (destination != null) ? destination.getName(): "No seleccionado";
-        return "Origen: " + o + "\nDestino: " + d + "\nPrecio: " + price + " euros";
+        String oName = (origin != null) ? origin.getName(): "No seleccionado";
+        String oZone = (origin != null) ? origin.getZone(): "-";
+        String dName = (destination != null) ? destination.getName(): "No seleccionado";
+        String dZone = (destination != null) ? destination.getZone(): "-";
+        return "Origen: " + oName + " (Zona " + oZone + ")\n" + 
+                "Destino: " + dName + " (Zona " + dZone + ")\n" +
+                "Precio: " + price + " euros";
     }
 }

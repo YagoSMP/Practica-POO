@@ -36,8 +36,8 @@ public class PaymentScreen extends Screen {
         kiosk.setMode(0);
         
         Translator translator = context.getTranslator();
-        kiosk.setTitle(translator.translate("El precio de la compra es") + ": " + context.getPrice() + " euros");
-        kiosk.setDescription(context.getDescription() + "\n\n" + translator.translate("Introduzca tarjeta de crédito"));
+        kiosk.setTitle(translator.translate("Introduzca tarjeta de crédito"));
+        kiosk.setDescription(context.getDescription());
         kiosk.setImage(null);
         
         kiosk.setOption('F', translator.translate("Cancelar"));
@@ -68,12 +68,9 @@ public class PaymentScreen extends Screen {
                         // Datos del ticket
                         LocalDateTime now = LocalDateTime.now();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        
-                        String ticketContent = "Fecha: " + dtf.format(now) + "\n" + 
-                                "Origen: " + context.getOrigin().getName() + " (Zona " + context.getOrigin().getZone() + ")\n" + 
-                                "Destino: " + context.getDestination().getName() + " (Zona " + context.getDestination().getZone() + ")\n" + 
-                                "Precio: " + context.getPrice() + " euros";
-        
+                        
+                        String ticketContent = "Fecha: " + dtf.format(now) + "\n" + context.getDescription();
+                        
                         // Imprimir ticket
                         List<String> ticketLines = Arrays.asList(ticketContent.split("\n"));
                         kiosk.print(ticketLines);
