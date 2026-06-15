@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -22,11 +23,14 @@ public class TrainNetwork {
     private TreeSet<TrainStation> stationSet;
     private HashMap<String, TrainStation> stationMap;
     private TariffCalculator calculator;
+    private HashSet<String> stationsInWorks;
     
-    public TrainNetwork(String stationsFileName) {
+    public TrainNetwork(String stationsFileName, String stationsInWork) {
         this.stationSet = new TreeSet<>();
         this.stationMap = new HashMap<>();
+        this.stationsInWorks = new HashSet<>();
         loadStationGraph(stationsFileName);
+        loadStationsInWork(stationsInWork);
         
         // Creamos la lista de zonas ordenada
         List<String> zones = Arrays.asList("A", "B1", "B2", "B3", "C1", "C2", "E1", "Zona Verde");
@@ -65,6 +69,29 @@ public class TrainNetwork {
         }
         catch(IOException e) {
             System.err.println("Error al leer el archivo de las estaciones: " + e.getMessage());
+        }
+    }
+    
+    private void loadStationsInWork(String fileName) {
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                if(!line.trim().isEmpty()) {
+                    stationsInWorks.add(line.trim());
+                }
+            }
+        }
+        catch(IOException e) {
+            System.err.println("Error al cargar el archivo de estaciones en obras: " + e.getMessage());
+        }
+    }
+    
+    public boolean isInWork(TrainStation station) {
+        if(stationsInWorks.contains(station.getName())) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
     

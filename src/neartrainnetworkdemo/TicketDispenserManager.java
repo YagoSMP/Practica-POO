@@ -14,7 +14,7 @@ public class TicketDispenserManager {
     public void start() {
         // Cargamos los datos
         TranslatorManager translatorManager = new TranslatorManager();
-        TrainNetwork trainNetwork = new TrainNetwork("./config/stations.csv");
+        TrainNetwork trainNetwork = new TrainNetwork("./config/stations.csv", "./config/Obras.txt");
         
         // Creamos el kiosk y el context
         SelfOrderKiosk kiosk = new SelfOrderKiosk();

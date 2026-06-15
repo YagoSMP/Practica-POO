@@ -37,7 +37,15 @@ public class PaymentScreen extends Screen {
         
         Translator translator = context.getTranslator();
         kiosk.setTitle(translator.translate("Introduzca tarjeta de crédito"));
-        kiosk.setDescription(context.getDescription());
+        
+        // Comprobar si la estacion de destino esta en obras
+        if(context.getTrainNetwork().isInWork(context.getDestination())) {
+            kiosk.setDescription(context.getDescription() + "\n" + translator.translate("La estación de destino está en obras"));
+        }
+        else {
+            kiosk.setDescription(context.getDescription());
+        }
+        
         kiosk.setImage(null);
         
         kiosk.setOption('F', translator.translate("Cancelar"));
@@ -100,6 +108,7 @@ public class PaymentScreen extends Screen {
         }
     }
     
+    // Metodo para meter poner los datos en el fichero
     private void writePaymentToLog(String ticketContent) {
         // Guardar en el archivo
         String logFileName = "ventas_" + LocalDate.now().toString() + ".txt";
