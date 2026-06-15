@@ -44,7 +44,7 @@ public class PaymentScreen extends Screen {
             else if(event == '1') {
                 long cardNumber = kiosk.getCardNumber();
                 
-                int amountInCents = context.getPrice().multiply(new BigDecimal("-100")).intValue();
+                int amountInCents = context.getPrice().multiply(new BigDecimal("100")).intValue();
                 
                 System.out.println(amountInCents); // Prueba de lo que devuelve amountInCents
                 

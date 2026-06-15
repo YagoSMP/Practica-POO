@@ -58,12 +58,19 @@ public class OperationContext {
         return price;
     }
     
+    // Calcular el precio a traves del trainNetwork
     private void calculatePrice() {
         if(origin != null && destination != null) {
             this.price = trainNetwork.getPrice(origin, destination);
         }
     }
     
+    // Aplicar descuento familia numerosa
+    public void hasFamilyDiscount() {
+        this.price = this.price.multiply(new BigDecimal("0.8"));
+    }
+    
+    // Resumen billete
     public String getDescription() {
         String o = (origin != null) ? origin.getName(): "No seleccionado";
         String d = (destination != null) ? destination.getName(): "No seleccionado";

@@ -57,7 +57,7 @@ public class StationSelectionScreen extends CarruselScreen {
                         context.setDestination(estacionElegida);
                         
                         // FIN DE COMPRA
-                        return new PaymentScreen(kiosk);
+                        return new FamilyDiscountScreen(kiosk);
                     }
                 }
             }
