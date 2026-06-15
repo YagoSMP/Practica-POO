@@ -5,14 +5,18 @@
 package neartrainnetworkdemo;
 
 import sienens.SelfOrderKiosk;
+import urjc.UrjcBankServer;
 
 /**
  *
  * @author yagos
  */
 public class CommunicationErrorScreen extends Screen {
-    public CommunicationErrorScreen(SelfOrderKiosk kiosk) {
+    private UrjcBankServer bank;
+    
+    public CommunicationErrorScreen(SelfOrderKiosk kiosk, UrjcBankServer bank) {
         super(kiosk);
+        this.bank = bank;
     }
     
     @Override
@@ -28,10 +32,14 @@ public class CommunicationErrorScreen extends Screen {
         
         // Bucle infinito hasta que saque la tarjeta
         while(true) {
-            char event = kiosk.waitEvent(30);
+            char event = kiosk.waitEvent(5);
             // Tarjeta extraida
             if(event == '2') {
                 // Volvemos al inicio
+                return null;
+            }
+            
+            if(bank.comunicationAvaiable()) {
                 return null;
             }
         }

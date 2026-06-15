@@ -4,11 +4,6 @@
  */
 package neartrainnetworkdemo;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import sienens.SelfOrderKiosk;
 
 /**
@@ -31,9 +26,6 @@ public class SuccessScreen extends Screen {
         kiosk.setDescription(translator.translate("Retire tarjeta y billete"));
         kiosk.setImage(null);
         
-        // Hacemos el print del ticket y lo guardamos en el txt
-        writePaymentToLog(context);
-        
         // Bucle infinito hasta que saque la tarjeta
         while(true) {
             char event = kiosk.waitEvent(30);
@@ -41,23 +33,6 @@ public class SuccessScreen extends Screen {
             if(event == '2') {
                 return null;
             }
-        }
-    }
-    
-    private void writePaymentToLog(OperationContext context) {
-        System.out.println("\n---TICKET GENERADO---");
-        System.out.println(context.getDescription());
-        System.out.println("---------------------\n");
-        
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter("tickets_log.txt", true))) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            
-            bw.write("Fecha: " + dtf.format(now) + "\n");
-            bw.write(context.getDescription() + "\n\n");
-        }
-        catch(IOException e) {
-            System.err.println("Error al guardar el log del ticket: " + e.getMessage());
         }
     }
 }

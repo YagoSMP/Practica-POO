@@ -43,11 +43,9 @@ public class WelcomeScreen extends Screen {
             char event = kiosk.waitEvent(30);
             
             if(event == 'A') {
-                System.out.println("Ir a la pagina de seleccion de estacion\n");
                 return new StationSelectionScreen(kiosk, "Seleccione la estación de origen", true);
             }
             else if(event == 'B') {
-                System.out.println("Ir a la pagina de cambio de idioma\n");
                 return new LanguageSelectionScreen(kiosk, tm);
             }
         }

@@ -4,7 +4,14 @@
  */
 package neartrainnetworkdemo;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 import javax.naming.CommunicationException;
 import sienens.SelfOrderKiosk;
 import urjc.UrjcBankServer;
@@ -51,7 +58,7 @@ public class PaymentScreen extends Screen {
                 try {
                     // Comprobar si el servidor esta caido
                     if(!bank.comunicationAvaiable()) {
-                        return new CommunicationErrorScreen(kiosk);
+                        return new CommunicationErrorScreen(kiosk, bank);
                     }
                     
                     // Intento de cobro
@@ -59,6 +66,11 @@ public class PaymentScreen extends Screen {
                     
                     // Pago aceptado
                     if(pagoAceptado) {
+                        List<String> ticketLines = Arrays.asList(context.getDescription().split("\n"));
+                        kiosk.print(ticketLines);
+                        
+                        // Hacemos el print del ticket y lo guardamos en el txt
+                        writePaymentToLog(context);
                         // Pantalla de exito
                         return new SuccessScreen(kiosk);
                     }
@@ -76,9 +88,26 @@ public class PaymentScreen extends Screen {
                     }
                 }
                 catch(CommunicationException e) {
-                    return new CommunicationErrorScreen(kiosk);
+                    return new CommunicationErrorScreen(kiosk, bank);
                 }
             }
+        }
+    }
+    
+    private void writePaymentToLog(OperationContext context) {
+        System.out.println("\n---TICKET GENERADO---");
+        System.out.println(context.getDescription());
+        System.out.println("---------------------\n");
+        
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter("tickets_log.txt", true))) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            
+            bw.write("Fecha: " + dtf.format(now) + "\n");
+            bw.write(context.getDescription() + "\n\n");
+        }
+        catch(IOException e) {
+            System.err.println("Error al guardar el log del ticket: " + e.getMessage());
         }
     }
 }
