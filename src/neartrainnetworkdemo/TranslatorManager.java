@@ -4,7 +4,10 @@
  */
 package neartrainnetworkdemo;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +47,27 @@ public class TranslatorManager {
     }
     
     private void loadDefaultTranslator() {
-        // Si esta en el map el español ponemos el español
-        if(translatorMap.containsKey("ES")) {
-            currentTranslator = translatorMap.get("ES");
+        String defaultLang = "Espanol";
+        File configFile = new File("./config/default_language.txt");
+        
+        // Leer el idioma por defecto
+        if(configFile.exists()) {
+            try(BufferedReader br = new BufferedReader(new FileReader(configFile))) {
+                String line = br.readLine();
+                if(line != null && !line.trim().isEmpty()) {
+                    String raw = line.trim();
+                    // Formatear
+                    defaultLang = raw.substring(0, 1).toUpperCase() + raw.substring(1).toLowerCase();
+                }
+            }
+            catch(IOException e) {
+                System.err.println("Error al leer el fichero de idioma por defecto: " + e.getMessage());
+            }
+        }
+        
+        // Si esta en el map el idioma por defecto lo ponemos
+        if(translatorMap.containsKey(defaultLang)) {
+            currentTranslator = translatorMap.get(defaultLang);
         } 
         // Si no esta el español pero el map tiene contenido, seleccionar el primero disponible
         else if(!translatorMap.isEmpty()) {

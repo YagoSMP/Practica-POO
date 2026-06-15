@@ -43,10 +43,13 @@ public class Translator {
                 }
             }
             
-            //Añadir el nombre correspondiente al idioma del archivo. en
+            //Añadir el nombre correspondiente al idioma del archivo. English
+            // Extraer el nombre del archivo sin la extension
             String normalPath = fileName.replace("\\", "/");
             String name = normalPath.substring(normalPath.lastIndexOf("/") + 1, normalPath.lastIndexOf("."));
-            languageName = name.toUpperCase();
+            
+            //Formatear para primera letra en mayuscula y el resto en minuscula
+            languageName = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         }
         catch(IOException e) {
             System.err.println("Error al cargar el diccionario: " + fileName);

@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -53,8 +54,6 @@ public class PaymentScreen extends Screen {
                 
                 int amountInCents = context.getPrice().multiply(new BigDecimal("100")).intValue();
                 
-                System.out.println(amountInCents); // Prueba de lo que devuelve amountInCents
-                
                 try {
                     // Comprobar si el servidor esta caido
                     if(!bank.comunicationAvaiable()) {
@@ -66,11 +65,21 @@ public class PaymentScreen extends Screen {
                     
                     // Pago aceptado
                     if(pagoAceptado) {
-                        List<String> ticketLines = Arrays.asList(context.getDescription().split("\n"));
+                        // Datos del ticket
+                        LocalDateTime now = LocalDateTime.now();
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        
+                        String ticketContent = "Fecha: " + dtf.format(now) + "\n" + 
+                                "Origen: " + context.getOrigin().getName() + " (Zona " + context.getOrigin().getZone() + ")\n" + 
+                                "Destino: " + context.getDestination().getName() + " (Zona " + context.getDestination().getZone() + ")\n" + 
+                                "Precio: " + context.getPrice() + " euros";
+        
+                        // Imprimir ticket
+                        List<String> ticketLines = Arrays.asList(ticketContent.split("\n"));
                         kiosk.print(ticketLines);
                         
                         // Hacemos el print del ticket y lo guardamos en el txt
-                        writePaymentToLog(context);
+                        writePaymentToLog(ticketContent);
                         // Pantalla de exito
                         return new SuccessScreen(kiosk);
                     }
@@ -94,17 +103,12 @@ public class PaymentScreen extends Screen {
         }
     }
     
-    private void writePaymentToLog(OperationContext context) {
-        System.out.println("\n---TICKET GENERADO---");
-        System.out.println(context.getDescription());
-        System.out.println("---------------------\n");
+    private void writePaymentToLog(String ticketContent) {
+        // Guardar en el archivo
+        String logFileName = "ventas_" + LocalDate.now().toString() + ".txt";
         
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter("tickets_log.txt", true))) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            
-            bw.write("Fecha: " + dtf.format(now) + "\n");
-            bw.write(context.getDescription() + "\n\n");
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(logFileName, true))) {
+            bw.write(ticketContent + "\n\n");
         }
         catch(IOException e) {
             System.err.println("Error al guardar el log del ticket: " + e.getMessage());

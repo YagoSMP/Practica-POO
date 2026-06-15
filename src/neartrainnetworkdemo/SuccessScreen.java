@@ -26,13 +26,14 @@ public class SuccessScreen extends Screen {
         kiosk.setDescription(translator.translate("Retire tarjeta y billete"));
         kiosk.setImage(null);
         
-        // Bucle infinito hasta que saque la tarjeta
-        while(true) {
-            char event = kiosk.waitEvent(30);
-            // Tarjeta extraida
-            if(event == '2') {
-                return null;
-            }
+        char event = kiosk.waitEvent(10);
+        
+        // Si retira la tarjeta volvemos a inicio
+        if(event == '2') {
+            return null;
         }
+        
+        // Si pasan 10s volvemos a inicio
+        return null;
     }
 }
